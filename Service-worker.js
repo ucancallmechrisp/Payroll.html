@@ -1,7 +1,7 @@
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open('payroll-cache').then(cache =>
-      cache.addAll(['index.html','manifest.json'])
+      cache.addAll(['payroll.html','manifest.json'])
     )
   );
 });
