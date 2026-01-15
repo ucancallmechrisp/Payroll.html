@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Payroll</title>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+body { font-family: Arial; background:#f4f4f4; padding:15px; }
+.day, .summary { background:#fff; padding:10px; margin-bottom:10px; border-radius:6px; }
+input { width:100%; padding:6px; margin-top:4px; }
+button { width:100%; padding:12px; font-size:1.1em; }
+</style>
+</head>
+<body>
+
+<h2>Weekly Payroll (Sat–Fri)</h2>
+<div id="days"></div>
+
+<div class="summary">
+  <label>After-Hours Calls (hrs)</label>
+  <input type="number" id="after" step="0.1" value="0">
+
+  <label>Hourly Rate</label>
+  <input type="number" id="rate" step="0.01">
+
+  <button onclick="calc()">Calculate</button>
+
+  <p>Total Hours: <span id="total"></span></p>
+  <p>Rounded Hours: <span id="rounded"></span></p>
+  <p>Pay: $<span id="pay"></span></p>
+</div>
+
+<script>
+const days = ["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"];
+const container = document.getElementById("days");
+
+days.forEach(d=>{
+  container.innerHTML+=`
+    <div class="day">
+      <strong>${d}</strong>
+      <input type="time" class="start">
+      <input type="time" class="end">
+    </div>`;
+});
+
+function calc(){
+  let h=0;
+  document.querySelectorAll(".start").forEach((s,i)=>{
+    const e=document.querySelectorAll(".end")[i];
+    if(s.value&&e.value){
+      h+=(new Date("1970-01-01T"+e.value)-new Date("1970-01-01T"+s.value))/36e5;
+    }
+  });
+  h+=+document.getElementById("after").value||0;
+  const r=Math.ceil(h*2)/2;
+  const rate=+document.getElementById("rate").value||0;
+  total.textContent=h.toFixed(2);
+  rounded.textContent=r.toFixed(1);
+  pay.textContent=(r*rate).toFixed(2);
+}
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+</script>
+
+</body>
+</html>
