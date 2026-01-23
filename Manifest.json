@@ -1,9 +1,0 @@
-{
-  "name": "Weekly Payroll Calculator",
-  "short_name": "Payroll",
-  "start_url": "payroll.html",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#007bff",
-  "icons": []
-}
